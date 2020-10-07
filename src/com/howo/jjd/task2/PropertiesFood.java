@@ -11,11 +11,11 @@ public class PropertiesFood {
 
 
     public PropertiesFood(String nameFood, int protein, int fats, int cd, int calories) {
-        this.nameFood = nameFood;
+        setNameFood(nameFood);
         setProtein(protein);
-        this.fats = fats;
-        this.cd = cd;
-        this.calories = calories;
+        setCd(cd);
+        setFats(fats);
+        setCalories(calories);
     }
 
     public PropertiesFood(String nameFood, int fats, int cd, int calories) {
