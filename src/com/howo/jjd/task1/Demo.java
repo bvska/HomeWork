@@ -16,7 +16,7 @@ public class Demo {
         Mountain ural = new Mountain  ("Ural", "Russia", 3000);
 
 
-        BunchOfClimbers group = new BunchOfClimbers(3, true, kavkaz);
+        BunchOfClimbers group = new BunchOfClimbers(3, false, kavkaz);
         BunchOfClimbers group1 = new BunchOfClimbers(2, true, ural);
         BunchOfClimbers group2 = new BunchOfClimbers(2, true, kavkaz);
 

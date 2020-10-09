@@ -27,16 +27,17 @@ public class BunchOfClimbers {
         setAccess(access);
     }
 
-        public void addBunchOfClimber(Climber group){
-            for (int i = 0; i < bunchOfClimber.length; i++) {
-                if (access && bunchOfClimber[i] == null){
-                    bunchOfClimber[i] = group;
+        public void addBunchOfClimber(Climber group) {
+            if (access) {
+                for (int i = 0; i < bunchOfClimber.length; i++) {
+                    if (bunchOfClimber[i] == null) {
+                        bunchOfClimber[i] = group;
 
-                    return;
+                        return;
+                    }
                 }
             }
         }
-
         public String getInfo(){
             StringBuilder sb = new StringBuilder();
             for (Climber group : bunchOfClimber){
