@@ -20,6 +20,8 @@ public class ColouringShelf {
         setColor(color);
     }
 
+
+
     public String getColor() {
         return color;
     }
