@@ -31,17 +31,28 @@ public class MessageTask {
     public static void countEachCode(List<Message> messageList) {
         // TODO: Подсчитать количество сообщений для каждого кода сообщения
         //  Ответ в консоль
-      //  int[] i = new int[];
-//        Iterator<Message> iterator = messageList.listIterator();
-//        while (iterator.hasNext()) {
-//            int k = iterator.next().getCode();
-//            int m = 0;
-//            if (k == 0){
-//            m++;
-//            System.out.println(m);}
-//        }
-     //   System.out.println(m);    ?????? не нравится мне вариант который я знаю,
+        int[] i = new int[messageList.size()];
+        Iterator<Message> iterator = messageList.listIterator();
+        while (iterator.hasNext()) {
+            for (int j = 0; j < i.length; j++) {
+                int k = iterator.next().getCode();
+                i[j] = k;
+
+            }
+            System.out.println("массив кодов: " + Arrays.toString(i));}
+        int[] counter = new int[10];
+
+        for (int j = 0; j < i.length; j++) {
+            counter[i[j]]++;
+        }
+
+        System.out.println("value\tcount");
+        for (int j = 0; j < counter.length; j++) {
+            System.out.println(j + "\t" + counter[j]);
+        }
     }
+
+
 
     private static void uniqueMessageCount(List<Message> messageList) {
         // TODO: Подсчитать количество уникальных сообщений
