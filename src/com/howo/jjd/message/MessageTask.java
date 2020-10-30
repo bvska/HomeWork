@@ -40,7 +40,7 @@ public class MessageTask {
 //            m++;
 //            System.out.println(m);}
 //        }
-     //   System.out.println(m);
+     //   System.out.println(m);    ?????? не нравится мне вариант который я знаю,
     }
 
     private static void uniqueMessageCount(List<Message> messageList) {
