@@ -65,7 +65,7 @@ public class MapTask {
                 "packages and web page editors now use Lorem Ipsum as their default model text and a search for lorem ipsum will " +
                 "uncover many web sites still uncover in their infancy Various versions uncover have evolved over the years uncover sometimes by accident" +
                 " sometimes on purpose injected humour and the like";
-
+        System.out.println(frequencyWord(text));
     }
 
 
@@ -147,15 +147,8 @@ public class MapTask {
         for (String s2 : s1) {
             frequencyWords.put(s2, count);
         }
-            for (HashMap.Entry<String, Integer> pair : frequencyWords.entrySet()) {
-                count = pair.getValue();
-                for (String s2 : s1) {
-                    if (pair.getKey().equals(s2)) {
-                        count++;
-                        frequencyWords.put(pair.getKey(), count);
-                    }
-                }
-            }
+        frequencyWords.putAll(addMap(frequencyWords, s1));
+
         for (int i = 0; i < 10; i++) {
             String s3 = null;
             int m = 0;
@@ -180,37 +173,28 @@ public class MapTask {
         for (String s2: s1) {
             letterMap1.put(s2, count);
         }
-        System.out.println(letterMap1);
 
+        letterMap1.putAll(addMap(letterMap1, s1));
 
-        for (HashMap.Entry<String, Integer> pair : letterMap1.entrySet()) {
-            count = pair.getValue();
-            for (String s2: s1) {
-                if (pair.getKey().equals(s2)){
-                    count++;
-                    letterMap1.put(pair.getKey(), count);
-                }
-            }
-        }
         for (HashMap.Entry<String, Integer> pair : letterMap1.entrySet()) {
             letterMap.put(pair.getKey(), (pair.getValue() * 100 / m));
         }
         return letterMap;
     }
 
-
-//    хотел объединить общие методы, но пока не работает
-//    public static HashMap<String, Integer> putMap(Map.Entry<String, Integer> pairAll, String[] s5){
-//        int i;
-//        HashMap<String, Integer> nullMap = new HashMap<>();
-//        i = pairAll.getValue();
-//        for (String s2: s5) {
-//            if (pairAll.getKey().equals(s2)){
-//                i++;
-//                nullMap.put(pairAll.getKey(), i);
-//            }
-//        }
-//        return nullMap;
-//    }
+    public static HashMap<String, Integer> addMap(HashMap<String, Integer> pairAll, String[] s5){
+        HashMap<String, Integer> nullMap = pairAll;
+        for (HashMap.Entry<String, Integer> pair : nullMap.entrySet()) {
+            int i = pair.getValue();
+            for (String s2: s5) {
+                if (pair.getKey().equals(s2)){
+                    i++;
+                    nullMap.put(pair.getKey(), i);
+                }
+            }
+        }
+        System.out.println(nullMap);
+        return nullMap;
+    }
 }
 
