@@ -44,6 +44,7 @@ public class MessageTask {
 
         for (int j = 0; j < i.length; j++) {
             counter[i[j]]++;
+
         }
 
         System.out.println("value\tcount");
