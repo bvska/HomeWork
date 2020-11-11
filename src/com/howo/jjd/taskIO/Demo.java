@@ -16,7 +16,11 @@ public class Demo {
 
         FilterIX filterIX = new FilterIX(new FileInputStream(taskFile));
 
-        filterIX.read(new byte[(int) taskFile.length()]);
+       filterIX.read(new byte[(int) taskFile.length()]);
+        System.out.println(filterIX.readFromFile(taskFile));
+
+
+
 
 
 
