@@ -37,7 +37,9 @@ public class Connection implements AutoCloseable{
     }
 
     public SimpleMessage readMessage() throws IOException, ClassNotFoundException {
+  //      System.out.println(socket.getLocalPort());
         return (SimpleMessage) input.readObject();
+
     }
 
 

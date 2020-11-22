@@ -6,6 +6,7 @@ package com.ifmo.jjd.lesson20.socketio;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.time.temporal.ChronoUnit;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -13,6 +14,7 @@ public class Client {
     private String ip;
     private int port;
     private Scanner scanner;
+ //   private String nameCl;
 
     Properties cChat = new Properties();
 
@@ -52,15 +54,18 @@ public class Client {
     }
 
     public void start() throws Exception {
+
         System.out.println("введите имя");
         String name = scanner.nextLine();
-
+        sendAndPrintMessage(SimpleMessage.getMessage(name, "connect"));
         String message;
         while (true){
+
             System.out.println("Введите сообщение");
             message = scanner.nextLine();
-//            if (message.equals("help"))
-//                System.out.println(message);
+            if (message.equals("exit")){
+                sendAndPrintMessage(SimpleMessage.getMessage(name, message));
+                break;}
             sendAndPrintMessage(SimpleMessage.getMessage(name, message));
         }
 
@@ -72,8 +77,9 @@ public class Client {
     private void sendAndPrintMessage(SimpleMessage message) throws Exception {
         try (Connection connection = new Connection(new Socket(ip, port))){
             connection.sendMessage(message);
-
             SimpleMessage fromServer = connection.readMessage();
+            if(fromServer.getText().equals("ping"))
+                System.out.println("время отклика: " + ChronoUnit.MILLIS.between(message.getDateTime(), fromServer.getDateTime()));
             System.out.println("от сервера " + fromServer);
         }
     }
@@ -81,6 +87,7 @@ public class Client {
         // ip 127.0.0.1 : 8090
         try {
             new Client().start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
