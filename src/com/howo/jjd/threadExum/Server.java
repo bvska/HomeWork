@@ -1,0 +1,45 @@
+package com.howo.jjd.threadExum;
+
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+
+
+public class Server {
+    CopyOnWriteArrayList<ClientHandler> clientName;
+
+
+    public Server() {
+        try (ServerSocket serverSocket = new ServerSocket(8090)) {
+            clientName = new CopyOnWriteArrayList<>();
+            System.out.println("Сервер запущен");
+            while (true) {
+                Socket socket = serverSocket.accept();
+                System.out.println("Клиент подключен");
+                subscribe(new ClientHandler(this, socket));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void subscribe(ClientHandler clientHandler) {
+        clientName.add(clientHandler);
+    }
+
+    public void unsubscribe(ClientHandler clientHandler) {
+        clientName.remove(clientHandler);
+    }
+
+    public void broadcastMess(SimpleMessage message, int port) {
+        for (ClientHandler c : clientName) {
+            if (port == c.getSocket().getPort())
+                continue;
+            c.sendMess(message);
+
+        }
+    }
+}
