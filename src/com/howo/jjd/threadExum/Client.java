@@ -24,28 +24,32 @@ public class Client {
     }
 
 
-    public void start() throws Exception {
-        socket = new Socket(ip, port);
-        output = new ObjectOutputStream(this.socket.getOutputStream());
-        input = new ObjectInputStream(this.socket.getInputStream());
+    public void start()  {
+        try {
+            socket = new Socket(ip, port);
+            output = new ObjectOutputStream(this.socket.getOutputStream());
+            input = new ObjectInputStream(this.socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Введите имя:");
         name = scanner.nextLine();
         ts1.start();
         ts.start();
     }
 
-        Thread ts1 = new Thread(() -> {
-            try {
-                while (true) {
-                    System.out.println(this.readMessage());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+    Thread ts1 = new Thread(() -> {
+        try {
+            while (true) {
+                System.out.println(this.readMessage());
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        });
+    });
 
     Thread ts = new Thread(() -> {
         try {

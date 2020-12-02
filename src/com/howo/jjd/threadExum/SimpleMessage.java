@@ -4,6 +4,7 @@ package com.howo.jjd.threadExum;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class SimpleMessage implements Serializable {
     private String sender;
@@ -47,7 +48,7 @@ public class SimpleMessage implements Serializable {
     public String toString() {
         return sender.toUpperCase() + ": " +
                 "написал: '" + text + '\'' +
-                ", " + dateTime.format(DateTimeFormatter.ISO_LOCAL_TIME) +
+                ", " + dateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)) +
                 '}';
     }
 
