@@ -4,26 +4,43 @@ package com.howo.jjd.threadExum;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ClientHandler {
     private Server server;
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
-    SimpleMessage message;
+    private SimpleMessage message;
+
 
     public ClientHandler(Server server, Socket socket) {
         try {
+
             this.socket = socket;
             this.input = new ObjectInputStream(socket.getInputStream());
             this.output = new ObjectOutputStream(socket.getOutputStream());
+            try {
+                message = (SimpleMessage) input.readObject();
+                if (server.addName(message.getSender())){
+                    this.sendMess(SimpleMessage.getMessage
+                            ("Сервер: ", "Такое имя уже используется, измените и перезайдите", message.getDateTime()));
+                    input.close();
+                    socket.close();
+                }
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             new Thread(() -> {
                 try {
                     while (true) {
                         message = (SimpleMessage) input.readObject();
                         if (message.getText().equals("/exit")) {
-                            System.out.println("Клиент отключен");
                             break;
                         }
                         System.out.println("Сообщение от клиента " + message);
@@ -49,6 +66,7 @@ public class ClientHandler {
                         e.printStackTrace();
                     }
                     server.unsubscribe(this);
+                    server.delName(message.getSender());
                 }
             }).start();
         } catch (IOException e) {
@@ -61,12 +79,14 @@ public class ClientHandler {
         return socket;
     }
 
-    public void sendMess (SimpleMessage message){
+
+
+    public void sendMess(SimpleMessage message) {
         try {
             output.writeObject(message);
             output.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+}
 }

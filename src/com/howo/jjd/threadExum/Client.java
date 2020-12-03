@@ -34,6 +34,12 @@ public class Client {
         }
         System.out.println("Введите имя:");
         name = scanner.nextLine();
+        // это надо для отслеживания совпадающего ника
+        try {
+            this.sendMessage(SimpleMessage.getMessage(name, "имя", LocalDateTime.now()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ts1.start();
         ts.start();
     }
@@ -54,6 +60,7 @@ public class Client {
     Thread ts = new Thread(() -> {
         try {
             while (true) {
+
                 System.out.println("Введите сообщение");
                 String message = scanner.nextLine();
                 this.sendMessage(SimpleMessage.getMessage(name, message, LocalDateTime.now()));

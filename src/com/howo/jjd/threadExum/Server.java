@@ -7,14 +7,14 @@ import java.net.Socket;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-
 public class Server {
-    CopyOnWriteArrayList<ClientHandler> clientName;
-
+    private CopyOnWriteArrayList<ClientHandler> clientName;
+    private CopyOnWriteArrayList<String> nameList;
 
     public Server() {
         try (ServerSocket serverSocket = new ServerSocket(8090)) {
             clientName = new CopyOnWriteArrayList<>();
+            nameList = new CopyOnWriteArrayList<>();
             System.out.println("Сервер запущен");
             while (true) {
                 Socket socket = serverSocket.accept();
@@ -39,7 +39,19 @@ public class Server {
             if (port == c.getSocket().getPort())
                 continue;
             c.sendMess(message);
-
         }
+    }
+
+    public void delName(String name){
+        nameList.remove(name);
+    }
+
+    public  boolean addName(String name) {
+        for (String c : nameList) {
+            if (name.equals(c))
+                return true;
+        }
+        nameList.add(name);
+        return false;
     }
 }

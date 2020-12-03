@@ -17,6 +17,10 @@ public class SimpleMessage implements Serializable {
         this.dateTime = dateTime;
     }
 
+    public SimpleMessage(String text) {
+        this.text = text;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -51,6 +55,7 @@ public class SimpleMessage implements Serializable {
                 ", " + dateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)) +
                 '}';
     }
+
 
     public static SimpleMessage getMessage(String sender, String text, LocalDateTime dateTime){
         return new SimpleMessage(sender, text, dateTime);
