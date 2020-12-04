@@ -20,23 +20,22 @@ public class ClientHandler {
 
     public ClientHandler(Server server, Socket socket) {
         try {
-
             this.socket = socket;
             this.input = new ObjectInputStream(socket.getInputStream());
             this.output = new ObjectOutputStream(socket.getOutputStream());
-            try {
-                message = (SimpleMessage) input.readObject();
-                if (server.addName(message.getSender())){
-                    this.sendMess(SimpleMessage.getMessage
-                            ("Сервер: ", "Такое имя уже используется, измените и перезайдите", message.getDateTime()));
-                    input.close();
-                    socket.close();
-                }
 
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
             new Thread(() -> {
+                try {
+                    message = (SimpleMessage) input.readObject();
+                    if (server.addName(message.getSender().toLowerCase())){
+                        this.sendMess(SimpleMessage.getMessage
+                                ("Сервер: ", "Такое имя уже используется, измените и перезайдите", message.getDateTime()));
+                        input.close();
+                        socket.close();
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 try {
                     while (true) {
                         message = (SimpleMessage) input.readObject();
@@ -52,15 +51,7 @@ public class ClientHandler {
                 } finally {
                     try {
                         input.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
                         output.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
                         socket.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -72,14 +63,11 @@ public class ClientHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public Socket getSocket() {
         return socket;
     }
-
-
 
     public void sendMess(SimpleMessage message) {
         try {
